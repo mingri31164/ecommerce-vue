@@ -3,11 +3,10 @@
     <nav class="navbar is-dark">
       <div class="navbar-brand">
         <router-link to="/" class="navbar-item">
-          <img src="logo.png" alt="" class=" mx-1">
-          <span class="has-text-grey">e</span><strong>5YouWant</strong>
+          <span class="has-text-grey"></span><strong class="button is-white">首页</strong>
+
         </router-link>
 
-        <!-- burger menu that shows only on touch devices -->
         <a class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar-menu"
           @click="showMobileMenu = !showMobileMenu">
           <span aria-hidden="true"></span>
@@ -22,17 +21,9 @@
           <div class="navbar-item">
             <form method="get" action="/search">
               <div class="field has-addons">
-                <div class="control">
-                  <input type="text" class="input" placeholder="What are you looking for?" name="query">
-                </div>
 
-                <div class="control">
-                  <button class="button is-link is-light">
-                    <span class="icon" style="color: gray">
-                      <i class="fas fa-search"></i>
-                    </span>
-                  </button>
-                </div>
+
+
               </div>
             </form>
           </div>
@@ -46,34 +37,22 @@
           <div class="navbar-item">
             <div class="buttons">
 
-              <router-link to="/login" class="button is-white" v-if="!user.userId">Log in</router-link>
+              <router-link to="/login" class="button is-white" v-if="!user.userId">登录</router-link>
 
               <div class="user" v-else>
                 <div class="dropdown is-right mx-3 is-active">
                   <div class="dropdown-trigger">
                     <button class="button is-white" aria-haspopup="true" aria-controls="dropdown-menu">
-                      <span class="icon">
-                        <i class="fas fa-user"></i>
-                      </span>
-                      <span>{{ user.name }}</span>
-                      <span class="icon is-small">
-                        <i class="fas fa-angle-down" aria-hidden="true"></i>
-                      </span>
+                      <span>账号：{{ user.name }}</span>
                     </button>
                   </div>
                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content">
                       <router-link class="dropdown-item" to="/order">
-                        <span class="icon">
-                          <i class="fas fa-money-bill"></i>
-                        </span>
-                        <span>Orders</span>
+                        <span>订单</span>
                       </router-link>
                       <a class="dropdown-item" @click="logout()">
-                        <span class="icon">
-                          <i class="fas fa-sign-out-alt"></i>
-                        </span>
-                        <span>Log out</span>
+                        <span>注销</span>
                       </a>
                     </div>
                   </div>
@@ -81,9 +60,8 @@
                 </div>
               </div>
 
-              <router-link to="/cart" class="button is-success is-light">
-                <span class="icon"><i class="fas fa-shopping-cart"></i></span>
-                <span>Cart ({{ cartTotalLen }})</span>
+              <router-link to="/cart" class="button is-white">
+                <span>购物车</span>
               </router-link>
             </div>
           </div>
@@ -97,9 +75,7 @@
       <router-view />
     </section>
 
-    <footer class="footer">
-      <p class="has-text-centered">Copyright (c) 2022</p>
-    </footer>
+
   </div>
 </template>
 

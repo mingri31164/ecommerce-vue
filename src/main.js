@@ -8,5 +8,7 @@ import store from './store'
 import axios from 'axios'
 
 axios.defaults.baseURL = 'http://localhost:8080/'
+// axios.defaults.baseURL = 'http://202.193.52.185:8080/'
+// axios.defaults.baseURL = 'http://web118.vipgz6.91tunnel.com/'
 
 createApp(App).use(store).use(router, axios).mount('#app')

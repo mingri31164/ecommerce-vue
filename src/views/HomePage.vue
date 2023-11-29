@@ -1,24 +1,14 @@
 <template>
     <div class="home">
-        <section class="hero is-medium is-dark mb-6">
-            <div class="hero-body has-text-centered">
-                <p class="title mb-6">
-                    Welcome to 5YouWant
-                </p>
-                <p class="subtitle">
-                    You can find anything you want
-                </p>
-            </div>
-        </section>
+
 
         <div class="columns is-multiline">
             <div class="column is-12">
-                <h3 class="is-size-2 has-text-centered">Latest products</h3>
+                <h3 class="is-size-2 has-text-centered">商品</h3>
             </div>
 
             <ProductBox v-for="product in latestProducts" v-bind:key="product.id" v-bind:product="product"
                 v-on:addToCart="addToCart" />
-
 
         </div>
     </div>
@@ -44,7 +34,7 @@ export default {
     mounted() {
         this.getLatestProducts()
         this.getCartItem()
-        document.title = 'Home | 5YouWant'
+        document.title = 'Shopping'
     },
     methods: {
         async getLatestProducts() {
@@ -74,15 +64,6 @@ export default {
             this.$store.commit('initAddCart', this.cart)
         },
         async addToCart(product) {
-            // var goodsNums = 0
-            // this.cart.items.forEach(item => {
-            //     if (item.goodsId === product.id) {
-            //         goodsNums += parseInt(item.num)
-            //         goodsNums++
-            //     }
-            // })
-
-            // console.log(goodsNums);
             await axios
                 .get("/api/cart/add", {
                     params: {

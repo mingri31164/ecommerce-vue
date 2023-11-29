@@ -2,16 +2,13 @@
     <div class="column is-3 is-size-3">
         <div class="box">
             <figure class="image mb-4">
-                <img :src="'http://202.193.52.185:8080/' + good.pthumbnail">
+                <img :src="'http://web118.vipgz6.91tunnel.com/' + good.pthumbnail">
             </figure>
 
-            <h3 class="is-size-5">{{ good.name }}</h3>
-            <p class="is-size-6 has-text-grey">${{ good.price1 }}</p>
+            <h5 class="is-size-5">{{ good.name }}</h5>
+            <h5 class="is-size-5">价格：{{ good.price1 }}</h5>
+            <button id="btn_add" @click="addToCart(good)"> 添加 </button>
 
-            <div class="box-operator">
-                <router-link to="/" class="button is-dark mx-3 mt-4 ">View details</router-link>
-                <button class="button is-success is-rounded my-4 mx-3 " @click="addToCart(good)">Add to cart</button>
-            </div>
         </div>
     </div>
 </template>
@@ -30,6 +27,7 @@ export default {
     methods: {
         addToCart(good) {
             this.$emit('addToCart', good)
+            alert("添加成功")
         }
     }
 }
@@ -40,13 +38,35 @@ export default {
     margin-top: -1.25rem;
     margin-left: -1.25rem;
     margin-right: -1.25rem;
-} 
+}
 
 .box-operator {
     margin-left: -1.25rem;
     margin-right: -1.25rem;
 }
+
 .box-operator .button {
     /* padding: 0 8px; */
+}
+
+#btn_add {
+    width: 100%;
+    margin: auto 0;
+    text-align: center;
+    background-color: #000000;
+    /* Green */
+    border: none;
+    color: rgb(255, 255, 255);
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    /* display: inline-block; */
+    display: block;
+    font-size: 16px;
+    margin: 4px auto;
+    -webkit-transition-duration: 0.4s;
+    /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
 }
 </style>

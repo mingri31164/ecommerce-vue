@@ -1,7 +1,7 @@
 <template>
     <div class="page-order">
         <div class="columns is-multiline">
-            <h1 class="title card-header-title">Orders</h1>
+            <h1 class="title card-header-title">订单</h1>
         </div>
 
         <div class="column is-12 box">

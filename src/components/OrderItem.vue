@@ -1,15 +1,13 @@
 <template>
     <div class="order-item">
         <div class="order-header">
-            <span>OrderDetails</span>
-            <span>OrderGoods</span>
-            <span>Data</span>
-            <span>goodsNums</span>
-            <span>Total:${{orderTotal}}</span>
+            <span>商品名称</span>
+            <span>时间</span>
+            <span>数量</span>
+            <span>总价:{{ orderTotal }}</span>
         </div>
 
         <div class="order-detail" v-for="item in orderDetails" v-bind:key="item.id">
-            <span><img :src="'http://202.193.53.235:8080/' + item.thumbnail" alt=""></span>
             <span>{{ item.goodsName }}</span>
             <span>{{ order.orderTime }}</span>
             <span>{{ item.goodsNums }}</span>
@@ -28,9 +26,9 @@
         justify-content: space-between;
         align-items: center;
         padding: 10px;
-        background-color: #f5f5f5;
+        background-color: #363636;
         margin: 10px 0;
-
+        color: #fff;
         font-size: large;
         font-weight: bold;
     }
@@ -77,7 +75,7 @@ export default {
     },
     methods: {
         getImgByGoodsId(goodsId) {
-            let goods = this.$store.state.goods 
+            let goods = this.$store.state.goods
             let img = ''
             goods.forEach(item => {
                 if (item.id == goodsId) {

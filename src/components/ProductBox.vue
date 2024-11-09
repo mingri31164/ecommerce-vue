@@ -2,7 +2,7 @@
     <div class="column is-3 is-size-3">
         <div class="box">
             <figure class="image mb-4">
-                <img :src="'http://web118.vipgz6.91tunnel.com/' + good.pthumbnail">
+                <img :src="'http://10.60.81.45:8080/' + good.pthumbnail">
             </figure>
 
             <h5 class="is-size-5">{{ good.name }}</h5>

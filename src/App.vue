@@ -69,7 +69,7 @@
 
     </nav>
 
-    <section class="section">
+    <section class="section" >
       <router-view />
     </section>
 
@@ -87,6 +87,9 @@
   border-radius: 0;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   padding-bottom: 4px;
+}
+.dropdown-item{
+
 }
 </style>
 
@@ -109,10 +112,16 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.dispatch('removeUserInfo');
-      this.user = this.$store.getters.getUserInfo.state.user ?? {};
-      this.getCartItem()
-      this.$router.push('/login');
+      // 弹出确认对话框
+      const confirmation = window.confirm('您确定要退出登录吗？');
+      if (confirmation) {
+        // 用户确认后执行退出逻辑
+        this.$store.dispatch('removeUserInfo');
+        this.user = this.$store.getters.getUserInfo.state.user ?? {};
+        this.getCartItem();
+        this.$router.push('/login');
+      }
+      // 如果用户取消，则不执行任何操作
     },
 
     goToCart() {

@@ -47,6 +47,7 @@ export default {
 }
 .box:hover{
   box-shadow: 0 0 10px blue; /* 红色光晕边框 */
+  color: red;
 }
 .image {
   margin-top: -1.25rem;

@@ -1,115 +1,55 @@
 <template>
-  <div class="page-login">
-    <form class="login-form" @submit.prevent="login">
-      <h1>登录</h1>
-      <div class="form-input-material">
-        <input type="text" name="name" id="name" placeholder=" " autocomplete="off" class="form-control-material"
-          v-model="name" required />
-        <label for="username">账号</label>
+  <vue-particles class="vue-particles" color="#8EB5C9" :particleOpacity="0.7" :particlesNumber="150" shapeType="star"
+                 :particleSize="4" linesColor="#8EB5C9" :linesWidth="1" :lineLinked="true" :lineOpacity="0.4" :linesDistance="150"
+                 :moveSpeed="3" :hoverEffect="true" hoverMode="grab" :clickEffect="true" clickMode="push" ref="particles">
+  </vue-particles>
+  <div class="login-register">
+    <div class="contain">
+      <div class="big-box" :class="{active:isLogin}">
+        <!--登录-->
+        <div class="big-contain" key="bigContainLogin" v-if="isLogin">
+          <div class="btitle">账户登录</div>
+          <div class="bform">
+            <input type="email" placeholder="用户名" v-model="name">
+            <span class="errTips" v-if="nameError">* 用户名不能为空 *</span>
+            <span class="errTips" v-if="loginError">* 账号或密码错误 *</span>
+            <input type="password" placeholder="密码" v-model="password">
+            <span class="errTips" v-if="passError">* 密码不能为空 *</span>
+            <span class="errTips" v-if="loginError">* 账号或密码错误 *</span>
+          </div>
+          <button class="bbutton" @click="login">登录</button>
+        </div>
+        <!--注册-->
+        <div class="big-contain" key="bigContainRegister" v-else>
+          <div class="btitle">创建账户</div>
+          <div class="bform">
+            <input type="text" placeholder="用户名" v-model="name">
+            <span class="errTips" v-if="nameError">* 用户名不能为空 *</span>
+            <span class="errTips" v-if="existed">* 用户名已经存在！ *</span>
+            <input type="password" placeholder="密码" v-model="password">
+            <span class="errTips" v-if="passError">* 密码不能为空 *</span>
+          </div>
+          <button class="bbutton" @click="register">注册</button>
+        </div>
+
+
       </div>
-      <div class="form-input-material">
-        <input type="password" name="password" id="password" placeholder=" " autocomplete="off"
-          class="form-control-material" v-model="password" required />
-        <label for="password">密码</label>
+      <div class="small-box" :class="{active:isLogin}">
+        <div class="small-contain" key="smallContainRegister" v-if="isLogin">
+          <div class="stitle">你好，朋友!</div>
+          <p class="scontent">还没有账号？点击注册！</p>
+          <button class="sbutton" @click="changeType">注册</button>
+        </div>
+        <div class="small-contain" key="smallContainLogin" v-else>
+          <div class="stitle">欢迎回来!</div>
+          <p class="scontent">已有账号，点击登录！</p>
+          <button class="sbutton" @click="changeType">登录</button>
+        </div>
       </div>
-      <button type="submit" class="button is-white" id="btn_login">登录</button>
-      <p>如果还没有账号请<router-link to="/signup">注册</router-link></p>
-    </form>
+    </div>
   </div>
 </template>
 
-
-<style lang="scss">
-.page-login {
-  justify-content: center;
-  align-items: center;
-  background-color: #363636;
-}
-
-#btn_login {
-  width: 100%;
-  display: block;
-  margin: 10px 0;
-}
-
-.login-form .form-input-material {
-  margin: 22px 0;
-}
-
-.btn {
-  padding: 8px 20px;
-  border-radius: 0;
-  overflow: hidden;
-
-
-
-  &::before {
-    position: absolute;
-    content: "";
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(120deg,
-        transparent,
-        var(--primary-color),
-        transparent);
-    transform: translateX(-100%);
-    transition: 0.6s;
-  }
-
-  &:hover {
-    background: transparent;
-    box-shadow: 0 0 20px 10px hsla(204, 70%, 53%, 0.5);
-
-    &::before {
-      transform: translateX(100%);
-    }
-  }
-}
-
-.form-input-material {
-  --input-default-border-color: white;
-  --input-border-bottom-color: white;
-  // margin: 5px;
-  padding: 0.5rem 0;
-
-  input {
-    color: white;
-  }
-}
-
-.login-form {
-  flex-direction: column;
-  align-items: center;
-  padding: 4rem 4rem;
-  margin-top: 3rem;
-  color: white;
-  background: #363636;
-  border-radius: 10px;
-
-
-  h1 {
-    margin: 0 0 1.6rem 0;
-    font-size: 2rem;
-    font-weight: bolder;
-  }
-
-  // .form-input-material {
-  //   margin: 12px 0;
-  // }
-
-  .btn {
-    width: 100%;
-    margin: 18px 0 9px 0;
-  }
-
-  a:hover {
-    background: transparent;
-    color: #2D9CDB;
-  }
-}
-</style> 
 
 <script>
 import axios from 'axios'
@@ -117,6 +57,11 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      isLogin:true,
+      nameError: false,
+      passError: false,
+      loginError: false,
+      existed: false,
       name: '',
       password: '',
       userId: '',
@@ -126,34 +71,235 @@ export default {
     document.title = "Shopping"
   },
   methods: {
+    changeType() {
+      this.isLogin = !this.isLogin
+      this.name = ''
+      this.password = ''
+      this.nameError = false
+      this.passError = false
+      this.loginError = false
+      this.existed = false
+    },
     async login() {
       const { name, password } = this
-
-      await axios.get('/api/user/login', {
-        params: {
-          name,
-          password
-        }
-      }).then(res => {
-        if (res.data != 'invalid') {
-          this.userId = res.data
-          const userState = this.$store.state
-          userState.user = {
-            userId: this.userId,
-            name: this.name
+      if(name != "" && password != ""){
+        await axios.get('/api/user/login', {
+          params: {
+            name,
+            password
           }
-          this.$store.dispatch("saveUserInfo", userState)
+        }).then(res => {
+          if (res.data != 'invalid') {
+            this.userId = res.data
+            const userState = this.$store.state
+            userState.user = {
+              userId: this.userId,
+              name: this.name
+            }
+            this.$store.dispatch("saveUserInfo", userState)
+            alert("登录成功！")
+            window.location.assign('/')
+          } else {
+            this.loginError = true
+            this.nameError = false
+            this.passError = false
+            alert("账号或密码错误！")
+            console.log("login fail, server error");
+          }
+        }).catch(err => {
+          console.log(err);
+        })
+      }
+      else if(name == ""){
+        this.loginError = false
+        this.nameError = true
+      }
+      else if(password == ""){
+        this.loginError = false
+        this.passError = true
+      }
+    },
 
-          window.location.assign('/')
-        } else {
-          alert('Username or password is incorrect')
-          console.log("login fail, server error");
-        }
-      }).catch(err => {
-        console.log(err);
-      })
 
-    }
+    async register() {
+      const { name, password } = this
+      if(name != "" && password != ""){
+        await axios.get('/api/user/register', {
+          params: {
+            name,
+            password
+          }
+        }).then(res => {
+          if (res.data != 'isexist') {
+            alert("注册成功")
+            this.name = ''
+            this.password = ''
+            this.isLogin = true
+          } else {
+            this.existed = true
+            this.nameError = false
+            this.passError = false
+            alert('账号已存在')
+            console.log("注册失败");
+          }
+        }).catch(err => {
+          console.log(err);
+        })
+      }
+      else if(name == ""){
+        this.loginError = false
+        this.nameError = true
+      }
+      else if(password == ""){
+        this.loginError = false
+        this.passError = true
+      }
+    },
   }
 }
 </script>
+
+
+
+<style scoped="scoped">
+#particles-js {
+  position: absolute; /* 为防止页面有其他的内容时会挤下去 */
+  height: 83%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.login-register{
+  width: 100vw;
+  height: 83vh;
+  box-sizing: border-box;
+}
+.contain{
+  width: 55%;
+  height: 60%;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 0 3px #f0f0f0,
+  0 0 6px #f0f0f0;
+}
+.big-box{
+  width: 70%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 30%;
+  transform: translateX(0%);
+  transition: all 1s;
+}
+.big-contain{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.btitle{
+  font-size: 1.5em;
+  font-weight: bold;
+  color: rgb(57,167,176);
+}
+.bform{
+  width: 100%;
+  height: 40%;
+  padding: 2em 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.bform .errTips{
+  display: block;
+  width: 50%;
+  text-align: left;
+  color: red;
+  font-size: 0.7em;
+  margin-left: 1em;
+}
+.bform input{
+  width: 50%;
+  height: 40%;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  padding-left: 2em;
+  background-color: #f0f0f0;
+}
+.bbutton{
+  width: 20%;
+  height: 40px;
+  border-radius: 24px;
+  border: none;
+  outline: none;
+  background-color: rgb(57,167,176);
+  color: #fff;
+  font-size: 0.9em;
+  cursor: pointer;
+}
+.small-box{
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(135deg,rgb(57,167,176),rgb(56,183,145));
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(0%);
+  transition: all 1s;
+  border-top-left-radius: inherit;
+  border-bottom-left-radius: inherit;
+}
+.small-contain{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.stitle{
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #fff;
+}
+.scontent{
+  font-size: 0.8em;
+  color: #fff;
+  text-align: center;
+  padding: 2em 4em;
+  line-height: 1.7em;
+}
+.sbutton{
+  width: 60%;
+  height: 40px;
+  border-radius: 24px;
+  border: 1px solid #fff;
+  outline: none;
+  background-color: transparent;
+  color: #fff;
+  font-size: 0.9em;
+  cursor: pointer;
+}
+
+.big-box.active{
+  left: 0;
+  transition: all 0.5s;
+}
+.small-box.active{
+  left: 100%;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: inherit;
+  border-bottom-right-radius: inherit;
+  transform: translateX(-100%);
+  transition: all 1s;
+}
+</style>

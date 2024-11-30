@@ -102,7 +102,7 @@
     color: #2D9CDB;
   }
 }
-</style> 
+</style>
 
 <script>
 import axios from 'axios'
@@ -138,7 +138,6 @@ export default {
       }).catch(err => {
         console.log(err);
       })
-
     }
   }
 }

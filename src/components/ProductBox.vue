@@ -4,10 +4,10 @@
             <figure class="image mb-4">
                 <img :src="'http://10.60.81.45:8080/' + good.pthumbnail">
             </figure>
-
+            <h5 class="is-size-5">这是一台{{good.name}}</h5>
             <h5 class="is-size-5">{{ good.name }}</h5>
-            <h5 class="is-size-5">价格：{{ good.price1 }}</h5>
-            <button id="btn_add" @click="addToCart(good)"> 添加 </button>
+            <h5 class="is-size-5" style="color: red;font-weight: bold">￥{{ good.price1 }}</h5>
+            <button id="btn_add" @click="addToCart(good)">加入购物车</button>
 
         </div>
     </div>
@@ -21,23 +21,37 @@ export default {
     },
     data() {
         return {
-            good: this.product
+            good: this.product,
+            user: this.$store.getters.getUserInfo?.state.user ?? {},
         }
     },
     methods: {
         addToCart(good) {
+          if (!this.user.userId) {
+            alert('未登录！请先登录。');
+            this.$router.push('/login'); // 跳转到登录页面
+          } else {
             this.$emit('addToCart', good)
             alert("添加成功")
+          }
+
         }
     }
 }
 </script>
 
 <style scoped>
+.box{
+  transition: box-shadow 0.3s ease; /* 添加平滑过渡效果 */
+  border-radius: 10px; /* 设置圆润边框，调整值以获得所需的圆度 */
+}
+.box:hover{
+  box-shadow: 0 0 10px blue; /* 红色光晕边框 */
+}
 .image {
-    margin-top: -1.25rem;
-    margin-left: -1.25rem;
-    margin-right: -1.25rem;
+  margin-top: -1.25rem;
+  margin-left: -1.25rem;
+  margin-right: -1.25rem;
 }
 
 .box-operator {

@@ -7,6 +7,17 @@
 
             <div class="column is-12 box">
                 <table class="table is-fullwidth" v-if="cartTotalLen">
+                  <thead>
+                  <tr>
+                    <th></th>
+                    <th>商品名称</th>
+                    <th>商品图片</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>总计</th>
+                    <th></th>
+                  </tr>
+                  </thead>
                     <CartItem v-for="item in cart.items" v-bind:key="item.cardid" v-bind:initialItem="item"
                         v-on:removeCartItem="removeCartItem" v-on:updateTotalPrice="updateTotalPrice"
                         v-on:conbindCartList="conbindCartList" />
@@ -16,7 +27,7 @@
             </div>
 
             <div class="column is-12 box">
-                <h2 class="subtitle">总价：{{ cartTotalPrice.toFixed(2) }}</h2>
+                <h2 class="subtitle">总价：￥{{ cartTotalPrice.toFixed(2) }}</h2>
 
                 <!-- Len: <strong>{{cartTotalLen}}</strong> -->
 

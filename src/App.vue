@@ -36,7 +36,6 @@
 
           <div class="navbar-item">
             <div class="buttons">
-
               <router-link to="/login" class="button is-white" v-if="!user.userId">登录</router-link>
 
               <div class="user" v-else>
@@ -56,13 +55,12 @@
                       </a>
                     </div>
                   </div>
-
                 </div>
               </div>
 
-              <router-link to="/cart" class="button is-white">
+              <button class="button is-white" @click="goToCart()">
                 <span>购物车</span>
-              </router-link>
+              </button>
             </div>
           </div>
         </div>
@@ -116,6 +114,16 @@ export default {
       this.getCartItem()
       this.$router.push('/login');
     },
+
+    goToCart() {
+      if (!this.user.userId) {
+        alert('未登录！请先登录。');
+        this.$router.push('/login'); // 跳转到登录页面
+      } else {
+        this.$router.push('/cart'); // 已登录，跳转到购物车
+      }
+    },
+
     async getCartItem() {
       await axios
         .get("/api/cart/listByUser", {
@@ -132,6 +140,7 @@ export default {
       this.$store.commit('initAddCart', this.cart)
     },
   },
+
   watch: {
     storeCart() {
       this.cart = this.$store.state.cart

@@ -1,7 +1,5 @@
 <template>
     <div class="home">
-
-
         <div class="columns is-multiline">
             <div class="column is-12">
                 <h3 class="is-size-2 has-text-centered">商品</h3>

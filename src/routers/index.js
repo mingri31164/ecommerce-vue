@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import Home from '../views/HomePage.vue'
-
+import TestCom from "@/views/TestCom.vue";
 import LogIn from '../views/LogIn.vue'
 import Cart from '../views/CartPage.vue'
 import Order from '../views/OrderPage.vue'
@@ -12,6 +12,11 @@ const routers = [
         path: '/',
         name: 'Home',
         component: Home
+    },
+    {
+        path: '/test',
+        name: 'test',
+        component: TestCom
     },
     {
         path: '/login',

@@ -4,14 +4,14 @@
             <span>商品名称</span>
             <span>时间</span>
             <span>数量</span>
-            <span>总价:{{ orderTotal }}</span>
+            <span style="color: red">总价：￥{{ orderTotal }}</span>
         </div>
 
         <div class="order-detail" v-for="item in orderDetails" v-bind:key="item.id">
             <span>{{ item.goodsName }}</span>
-            <span>{{ order.orderTime }}</span>
+            <span>{{ formatOrderTime(order.orderTime) }}</span>
             <span>{{ item.goodsNums }}</span>
-            <span>${{ item.goodsPrice }}</span>
+            <span>￥{{ item.goodsPrice }}</span>
         </div>
     </div>
 </template>
@@ -74,6 +74,18 @@ export default {
 
     },
     methods: {
+      formatOrderTime(orderTime) {
+        const date = new Date(orderTime);
+        return date.toLocaleString('zh-CN', { // 根据需要选择语言
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true // 24小时制
+        });
+      },
         getImgByGoodsId(goodsId) {
             let goods = this.$store.state.goods
             let img = ''

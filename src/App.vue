@@ -8,7 +8,7 @@
         </router-link>
 
         <a class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar-menu"
-          @click="showMobileMenu = !showMobileMenu">
+           @click="showMobileMenu = !showMobileMenu">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -30,15 +30,16 @@
         </div>
 
 
-        <div class="navbar-end">
+        <div class="navbar-end" style="vertical-align: middle!important;">
           <!-- <router-link to="/laptop" class="navbar-item">Laptop</router-link>
           <router-link to="/pc" class="navbar-item">PC</router-link> -->
 
           <div class="navbar-item">
             <div class="buttons">
+
               <router-link to="/login" class="button is-white" v-if="!user.userId">登录</router-link>
 
-              <div class="user" v-else>
+              <div class="user" v-else >
                 <div class="dropdown is-right mx-3 is-active">
                   <div class="dropdown-trigger">
                     <button class="button is-white" aria-haspopup="true" aria-controls="dropdown-menu">
@@ -50,6 +51,9 @@
                       <router-link class="dropdown-item" to="/order">
                         <span>订单</span>
                       </router-link>
+                      <router-link to="/cart" class="dropdown-item">
+                        <span>购物车</span>
+                      </router-link>
                       <a class="dropdown-item" @click="logout()">
                         <span>注销</span>
                       </a>
@@ -57,10 +61,6 @@
                   </div>
                 </div>
               </div>
-
-              <button class="button is-white" @click="goToCart()">
-                <span>购物车</span>
-              </button>
             </div>
           </div>
         </div>
@@ -69,7 +69,7 @@
 
     </nav>
 
-    <section class="section" >
+    <section class="section">
       <router-view />
     </section>
 
@@ -87,9 +87,6 @@
   border-radius: 0;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   padding-bottom: 4px;
-}
-.dropdown-item{
-
 }
 </style>
 
@@ -112,44 +109,27 @@ export default {
   },
   methods: {
     logout() {
-      // 弹出确认对话框
-      const confirmation = window.confirm('您确定要退出登录吗？');
-      if (confirmation) {
-        // 用户确认后执行退出逻辑
-        this.$store.dispatch('removeUserInfo');
-        this.user = this.$store.getters.getUserInfo.state.user ?? {};
-        this.getCartItem();
-        this.$router.push('/login');
-      }
-      // 如果用户取消，则不执行任何操作
+      this.$store.dispatch('removeUserInfo');
+      this.user = this.$store.getters.getUserInfo.state.user ?? {};
+      this.getCartItem()
+      this.$router.push('/login');
     },
-
-    goToCart() {
-      if (!this.user.userId) {
-        alert('未登录！请先登录。');
-        this.$router.push('/login'); // 跳转到登录页面
-      } else {
-        this.$router.push('/cart'); // 已登录，跳转到购物车
-      }
-    },
-
     async getCartItem() {
       await axios
-        .get("/api/cart/listByUser", {
-          params: {
-            userId: this.user.userId
-          }
-        })
-        .then(response => {
-          this.cart.items = response.data
-        })
-        .catch(error => {
-          console.log(error);
-        })
+          .get("/api/cart/listByUser", {
+            params: {
+              userId: this.user.userId
+            }
+          })
+          .then(response => {
+            this.cart.items = response.data
+          })
+          .catch(error => {
+            console.log(error);
+          })
       this.$store.commit('initAddCart', this.cart)
     },
   },
-
   watch: {
     storeCart() {
       this.cart = this.$store.state.cart

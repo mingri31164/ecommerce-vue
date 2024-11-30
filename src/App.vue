@@ -109,10 +109,12 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.dispatch('removeUserInfo');
-      this.user = this.$store.getters.getUserInfo.state.user ?? {};
-      this.getCartItem()
-      this.$router.push('/login');
+      if (confirm('确定要退出登录吗？')) {
+        this.$store.dispatch('removeUserInfo');
+        this.user = this.$store.getters.getUserInfo.state.user ?? {};
+        this.getCartItem();
+        this.$router.push('/login');
+      }
     },
     async getCartItem() {
       await axios

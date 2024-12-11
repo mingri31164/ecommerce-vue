@@ -31,11 +31,20 @@
           <div class="navbar-item">
             <div class="buttons">
 
-              <router-link to="/cart" style="color: #b0b0b0; position: relative; width: 5vw; height: 5vh; line-height: 4.5vh; overflow: hidden;">
+              <router-link
+                  v-if="cartTotalLen > 0"
+                  to="/cart"
+                  style="color: #b0b0b0; position: relative; width: 5vw; height: 5vh; line-height: 4.5vh; overflow: hidden;">
                 <img src="./assets/购物车空.png" style="width: 35%; height: 50%;">
                 <span style="margin-left: 0.1vw">购物车</span>
-                <div style="position: absolute; top: 0; left: 1vw; width: 20px; height: 20px; background-color: red; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 12px;">
-                  3 <!-- 购物车商品数量 -->
+                <div class="tip"
+                     v-if="cartTotalLen > 0"
+                     style="position: absolute;
+                            top: 0; left: 1vw; width: 20px; height: 20px;
+                            background-color: red; border-radius: 50%;
+                            color: white; display: flex; align-items: center;
+                            justify-content: center; font-size: 12px;">
+                  {{ cartTotalLen }}
                 </div>
               </router-link>
 
@@ -73,6 +82,7 @@
 
   </div>
 </template>
+
 
 <style lang="scss">
 .dropdown-trigger {
@@ -157,4 +167,5 @@ export default {
     }
   }
 }
+
 </script>

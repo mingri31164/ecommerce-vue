@@ -88,6 +88,7 @@ export default {
           }
         });
         alert('添加成功！');
+        this.$router.push('/');
       } catch (error) {
         console.error('添加到购物车失败', error);
         alert('添加到购物车失败，请稍后重试。');

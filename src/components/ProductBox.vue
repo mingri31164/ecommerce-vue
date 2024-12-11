@@ -1,16 +1,16 @@
 <template>
-    <div class="column is-3">
-        <div class="box">
-            <figure class="image mb-4">
-                <img :src="'http://10.60.81.45:8080/' + good.pthumbnail">
-            </figure>
-            <h5 class="is-size-5">这是一台{{good.name}}</h5>
-            <h5 class="is-size-5">{{ good.name }}</h5>
-            <h5 class="is-size-5" style="color: red;font-weight: bold">￥{{ good.price1 }}</h5>
-            <button id="btn_add" @click="addToCart(good)">加入购物车</button>
-
-        </div>
+  <div class="column is-3" @click="goToDetail"
+       style="display: flex; justify-content: center; align-items: flex-start; padding: 5px;">
+    <div class="box" style="width: 300px; height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
+      <figure class="image mb-4" style="width: 100%; height: 220px; overflow: hidden;">
+        <img :src="'http://10.60.81.45:8080/' + good.pthumbnail" style="width: 100%; height: auto;">
+      </figure>
+      <span class="is-size-6" style="font-weight: 400">{{ good.name }}</span>
+      <span class="is-size-7" style="color: #b0b0b0;font-size: 12px">这是一台 | {{ good.name }}</span>
+      <h5 class="is-size-5" style="color: red; font-weight: bold">￥{{ good.price1 }}</h5>
+      <!-- <button id="btn_add" @click="addToCart(good)" style="width: 100%;">加入购物车</button> -->
     </div>
+  </div>
 </template>
 
 <script>
@@ -26,13 +26,15 @@ export default {
         }
     },
     methods: {
+      goToDetail() {
+        this.$router.push(`/product/${this.product.id}`);
+      },
         addToCart(good) {
           if (!this.user.userId) {
             alert('未登录！请先登录。');
             this.$router.push('/login'); // 跳转到登录页面
           } else {
             this.$emit('addToCart', good)
-            alert("添加成功")
           }
 
         }

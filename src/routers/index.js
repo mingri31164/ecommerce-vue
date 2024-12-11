@@ -6,6 +6,8 @@ import LogIn from '../views/LogIn.vue'
 import Cart from '../views/CartPage.vue'
 import Order from '../views/OrderPage.vue'
 import SignUp from '@/views/SignUp.vue'
+import ProductDetail from '@/components/ProductDetail.vue';
+
 
 const routers = [
     {
@@ -37,7 +39,12 @@ const routers = [
         path: '/order',
         name: 'Order',
         component: Order
-    }
+    },
+    {
+        path: '/product/:id',
+        name: 'ProductDetail',
+        component: ProductDetail,
+    },
 ]
 
 var router = createRouter({

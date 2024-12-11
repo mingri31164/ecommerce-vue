@@ -5,6 +5,8 @@ export default createStore({
     cart: {
         items: [],
     },
+      searchQuery: '', // 搜索关键字
+      selectedPriceRange: '', // 价格筛选
     user: {
         name: '',
         userId: '',
@@ -21,7 +23,13 @@ export default createStore({
    },
    setUserName(state, username) {
       state.user.name = username
-   }
+   },
+      updateSearchQuery(state, query) {
+          state.searchQuery = query;
+      },
+      updateSelectedPriceRange(state, range) {
+          state.selectedPriceRange = range;
+      },
   },
   actions: {
     saveUserInfo(userStore) {

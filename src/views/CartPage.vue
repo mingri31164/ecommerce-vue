@@ -115,6 +115,7 @@ export default {
             this.$store.commit('initAddCart', this.cart)
         },
         async generateOrder() {
+          console.log(this.cartList.toString())
             if (!this.cartList.length) {
                 alert("请选择商品");
                 return
@@ -131,9 +132,9 @@ export default {
                     console.log(err.message);
 
                 })
-                .finally(
-                    this.$router.push('/')
-                )
+                // .finally(
+                //     this.$router.push('/')
+                // )
             alert("购买成功");
         }
     },

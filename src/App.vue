@@ -2,9 +2,8 @@
   <div id="wrapper">
     <nav class="navbar is-dark">
       <div class="navbar-brand">
-        <router-link to="/" class="navbar-item">
+        <router-link to="/" class="navbar-item" @click.prevent="goHome">
           <span class="has-text-grey"></span><strong class="button is-white">首页</strong>
-
         </router-link>
 
         <a class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar-menu"
@@ -13,7 +12,6 @@
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
         </a>
-
       </div>
 
       <div class="navbar-menu" id="navbar-menu" v-bind:class="{ 'is-active': showMobileMenu }">
@@ -21,14 +19,10 @@
           <div class="navbar-item">
             <form method="get" action="/search">
               <div class="field has-addons">
-
-
-
               </div>
             </form>
           </div>
         </div>
-
 
         <div class="navbar-end" style="vertical-align: middle!important;">
           <!-- <router-link to="/laptop" class="navbar-item">Laptop</router-link>
@@ -36,6 +30,14 @@
 
           <div class="navbar-item">
             <div class="buttons">
+
+              <router-link to="/cart" style="color: #b0b0b0; position: relative; width: 5vw; height: 5vh; line-height: 4.5vh; overflow: hidden;">
+                <img src="./assets/购物车空.png" style="width: 35%; height: 50%;">
+                <span style="margin-left: 0.1vw">购物车</span>
+                <div style="position: absolute; top: 0; left: 1vw; width: 20px; height: 20px; background-color: red; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 12px;">
+                  3 <!-- 购物车商品数量 -->
+                </div>
+              </router-link>
 
               <router-link to="/login" class="button is-white" v-if="!user.userId">登录</router-link>
 
@@ -49,12 +51,10 @@
                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content">
                       <router-link class="dropdown-item" to="/order">
-                        <span>订单</span>
+                        <span style="margin-left: 60px">订单</span>
                       </router-link>
-                      <router-link to="/cart" class="dropdown-item">
-                        <span>购物车</span>
-                      </router-link>
-                      <a class="dropdown-item" @click="logout()">
+
+                      <a class="dropdown-item" @click="logout()" style="margin-left: 60px">
                         <span>注销</span>
                       </a>
                     </div>
@@ -65,14 +65,11 @@
           </div>
         </div>
       </div>
-
-
     </nav>
 
     <section class="section">
       <router-view />
     </section>
-
 
   </div>
 </template>
@@ -108,6 +105,12 @@ export default {
     // this.getCartItem()
   },
   methods: {
+    goHome() {
+      this.$router.push('/'); // 路由跳转
+      setTimeout(() => {
+        window.location.reload(); // 刷新页面
+      }, 0); // 立即执行，确保跳转后刷新
+    },
     logout() {
       if (confirm('确定要退出登录吗？')) {
         this.$store.dispatch('removeUserInfo');

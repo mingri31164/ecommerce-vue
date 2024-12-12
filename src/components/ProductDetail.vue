@@ -83,7 +83,7 @@ export default {
           params: {
             userId,
             goodsId: product.id,
-            num: 1,
+            num: this.quantity, // 使用当前选择的数量
             price: product.price1,
           }
         });
@@ -124,13 +124,11 @@ export default {
 }
 
 .product-info {
-  //background-color: red;
   margin-left: 1vw;
   width: 50%;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  //justify-content: center;
 }
 
 .product-title {
@@ -152,7 +150,6 @@ export default {
 }
 
 .product-actions {
-  //display: flex;
   align-items: center;
   gap: 10px;
 }

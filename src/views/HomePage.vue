@@ -41,6 +41,8 @@
         </el-carousel>
       </div>
 
+      <h1 v-if="filteredProducts.length > 0" style="text-align: center;
+       margin: 20px 0; width: 100%; font-size: 2.5vw">——— 商品列表 ———</h1>
       <!-- 商品展示 -->
       <ProductBox
           v-for="product in filteredProducts"

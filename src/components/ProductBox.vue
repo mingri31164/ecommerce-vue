@@ -1,6 +1,6 @@
 <template>
   <div class="column is-3" @click="goToDetail"
-       style="display: flex; justify-content: center; align-items: flex-start; padding: 5px;">
+       style="display: flex; justify-content: center; align-items: flex-start; padding: 10px;">
     <div class="box" style="width: 300px; height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
       <figure class="image mb-4" style="width: 100%; height: 220px; overflow: hidden;">
         <img :src="'http://10.60.81.45:8080/' + good.pthumbnail" style="width: 100%; height: auto;">

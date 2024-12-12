@@ -2,7 +2,7 @@
   <div id="wrapper">
     <nav class="navbar is-dark">
       <div class="navbar-brand">
-        <router-link to="/" class="navbar-item" @click.prevent="goHome">
+        <router-link to="/" class="navbar-item">
           <span class="has-text-grey"></span><strong class="button is-white">首页</strong>
         </router-link>
 
@@ -32,13 +32,12 @@
             <div class="buttons">
 
               <router-link
-                  v-if="cartTotalLen > 0"
                   to="/cart"
-                  style="color: #b0b0b0; position: relative; width: 5vw; height: 5vh; line-height: 4.5vh; overflow: hidden;">
+                  style="color: #b0b0b0; position: relative; width: 5.5vw; height: 5vh; line-height: 4.5vh; overflow: hidden;">
                 <img src="./assets/购物车空.png" style="width: 35%; height: 50%;">
-                <span style="margin-left: 0.1vw">购物车</span>
+                <span class="cart-car" style="margin-left: 0.2vw;">购物车</span>
                 <div class="tip"
-                     v-if="cartTotalLen > 0"
+                     v-if="cartTotalLen > 0 && this.$store.getters.getUserInfo.state.user.userId !== ''"
                      style="position: absolute;
                             top: 0; left: 1vw; width: 20px; height: 20px;
                             background-color: red; border-radius: 50%;
@@ -94,6 +93,9 @@
   border-radius: 0;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   padding-bottom: 4px;
+}
+.cart-car:hover {
+  color: red;
 }
 </style>
 

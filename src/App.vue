@@ -34,7 +34,7 @@
               <router-link
                   to="/cart"
                   style="color: #b0b0b0; position: relative; width: 5.5vw; height: 5vh; line-height: 4.5vh; overflow: hidden;">
-                <img src="./assets/购物车空.png" style="width: 35%; height: 50%;">
+                <img src="./assets/购物车空.png" style="width: 32%; height: 50%;">
                 <span class="cart-car" style="margin-left: 0.2vw;">购物车</span>
                 <div class="tip"
                      v-if="cartTotalLen > 0 && this.$store.getters.getUserInfo.state.user.userId !== ''"
@@ -49,12 +49,16 @@
 
               <router-link to="/login" class="button is-white" v-if="!user.userId">登录</router-link>
 
-              <div class="user" v-else >
+              <div class="user" v-else>
                 <div class="dropdown is-right mx-3 is-active">
-                  <div class="dropdown-trigger">
-                    <button class="button is-white" aria-haspopup="true" aria-controls="dropdown-menu">
-                      <span>账号：{{ user.name }}</span>
-                    </button>
+                  <div class="dropdown-trigger" style="color: #b0b0b0;
+                  width: 5.5vw; height: 5vh;overflow: hidden;">
+                    <span aria-haspopup="true" aria-controls="dropdown-menu">
+                      <span style="display: flex;align-items: center;margin-top: -13%">
+                        <img src="./assets/用户-实色.png" style="width: 50%; height: 50%;">
+                        <span class="user-name" style="margin-left: 0.2vw;font-size: 21px;">{{ user.name }}</span>
+                      </span>
+                    </span>
                   </div>
                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content">
@@ -97,6 +101,9 @@
 .cart-car:hover {
   color: red;
 }
+.user-name:hover{
+  color: red;
+}
 </style>
 
 <script>
@@ -114,7 +121,7 @@ export default {
   },
   mounted() {
     this.cart = this.$store.state.cart
-    // this.getCartItem()
+    this.getCartItem()
   },
   methods: {
     goHome() {
@@ -132,20 +139,16 @@ export default {
       }
     },
     async getCartItem() {
-      await axios
-          .get("/api/cart/listByUser", {
-            params: {
-              userId: this.user.userId
-            }
-          })
-          .then(response => {
-            this.cart.items = response.data
-          })
-          .catch(error => {
-            console.log(error);
-          })
-      this.$store.commit('initAddCart', this.cart)
-    },
+      try {
+        const response = await axios.get("/api/cart/listByUser", {
+          params: { userId: this.user.userId }
+        });
+        this.cart.items = response.data;
+        this.$store.commit('initAddCart', this.cart); // 更新 Vuex 状态
+      } catch (error) {
+        console.error(error);
+      }
+    }
   },
   watch: {
     storeCart() {

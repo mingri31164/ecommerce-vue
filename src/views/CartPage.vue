@@ -6,10 +6,10 @@
       </div>
 
       <div class="column is-12 box">
-        <table class="table is-fullwidth" v-if="cartTotalLen && this.$store.getters.getUserInfo.state.user.userId !== ''">
+        <table class="table is-fullwidth" v-if="cartTotalLen && isUserLoggedIn">
           <thead>
           <tr>
-            <td><input class="check" type="checkbox">全选</td>
+            <td><input class="check" type="checkbox" v-model="isAllChecked" @change="toggleAllItems">全部选择</td>
             <th>商品名称</th>
             <th>商品图片</th>
             <th>单价</th>
@@ -31,9 +31,13 @@
       </div>
 
       <div class="column is-12 box">
-        <h2 class="subtitle">总价：￥{{ cartTotalPrice.toFixed(2) }}</h2>
+        <h2 class="subtitle">总价：<span style="color: red;font-weight: 600;
+        font-size: 1.5vw;">￥{{ cartTotalPrice.toFixed(2) }}</span></h2>
         <hr>
-        <button class="button is-dark" @click="generateOrder()">购买</button>
+        <button class="button is-dark" @click="generateOrder()" style="width: 6vw">购买</button>
+        <button class="button is-danger" @click="clearCart()" style="float: right">清空购物车</button>
+        <button class="button is-warning" @click="removeSelectedItems()"
+                style="float: right;margin-right: 1vw">删除选中商品</button>
       </div>
     </div>
   </div>
@@ -54,7 +58,25 @@ export default {
         items: []
       },
       cartTotalPrice: 0,
-      cartList: []
+      cartList: [],
+    }
+  },
+  computed: {
+    isUserLoggedIn() {
+      return this.$store.getters.getUserInfo.state.user.userId !== '';
+    },
+    cartTotalLen() {
+      return this.cart.items.reduce((acc, curVal) => acc + parseInt(curVal.num), 0);
+    },
+    isAllChecked: {
+      get() {
+        return this.cart.items.length > 0 && this.cart.items.every(item => item.checked);
+      },
+      set(value) {
+        this.cart.items.forEach(item => {
+          item.checked = value; // 更新每个商品的选中状态
+        });
+      }
     }
   },
   mounted() {
@@ -62,9 +84,47 @@ export default {
     document.title = "Shopping";
   },
   methods: {
-    removeItem(item) {
-      this.cart.items = this.cart.items.filter(i => i.cardid !== item.cardid);
-      alert("删除成功");
+    toggleAllItems() {
+      this.updateTotalPrice();
+    },
+    async removeSelectedItems() {
+      if (!this.cartList.length) {
+        alert("请选择商品");
+        return;
+      }
+      if (confirm('是否删除选中商品？')){
+        const userId = this.$store.getters.getUserInfo.state.user.userId;
+        const selectedItems = this.cart.items.filter(item => item.checked);
+
+        for (const item of selectedItems) {
+          await this.removeCartItem(item, userId);
+        }
+        this.updateTotalPrice(); // 更新总价
+      }
+    },
+    async removeCartItem(item, userId) {
+      try {
+        const response = await axios.get('/api/cart/deleteById', {
+          params: {
+            userId: userId,
+            cartId: item.cardid // 传递商品ID
+          }
+        });
+        this.cart.items = response.data; // 更新购物车内容
+      } catch (error) {
+        console.error("删除商品失败:", error.message);
+      }
+    },
+    async clearCart() {
+      if (confirm('是否清空购物车？')){
+        const userId = this.$store.getters.getUserInfo.state.user.userId;
+
+        // 遍历所有商品并逐个删除
+        for (const item of this.cart.items) {
+          await this.removeCartItem(item, userId);
+        }
+        this.updateTotalPrice(); // 更新总价
+      }
     },
     updateTotalPrice() {
       this.cartTotalPrice = 0;
@@ -90,21 +150,6 @@ export default {
           });
       this.$store.commit('initAddCart', this.cart);
     },
-    async removeCartItem(item) {
-      await axios.get('/api/cart/deleteById', {
-        params: {
-          userId: this.$store.getters.getUserInfo.state.user.userId,
-          cartId: item.cardid
-        }
-      })
-          .then(response => {
-            this.cart.items = response.data;
-          })
-          .catch(err => {
-            console.log(err.message);
-          });
-      this.$store.commit('initAddCart', this.cart);
-    },
     async generateOrder() {
       if (!this.cartList.length) {
         alert("请选择商品");
@@ -124,15 +169,10 @@ export default {
 
         alert("购买成功");
         console.log(response.data); // 处理返回的订单数据
-        this.$router.push('/')
+        this.$router.push('/');
       } catch (err) {
         console.log(err.message);
       }
-    }
-  },
-  computed: {
-    cartTotalLen() {
-      return this.cart.items.reduce((acc, curVal) => acc + parseInt(curVal.num), 0);
     }
   }
 }

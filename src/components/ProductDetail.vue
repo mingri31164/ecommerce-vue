@@ -5,16 +5,19 @@
       <div class="product-info">
         <h1 v-if="product" class="product-title">{{ product.name }}</h1>
         <p v-if="product" class="product-description">{{ product.description || '暂无描述' }}</p>
+        <hr>
         <h2 v-if="product" class="product-price">价格: ￥{{ product.price1 }}</h2>
+        <hr>
         <div class="product-actions">
           <div class="quantity-control">
             <span>数量：</span>
-            <button @click="decreaseQuantity">-</button>
-            <span>{{ quantity }}</span>
-            <button @click="increaseQuantity">+</button>
+            <button @click="decreaseQuantity" style="border-radius: 10vw">-</button>
+            <span style="padding: 10px">{{ quantity }}</span>
+            <button @click="increaseQuantity" style="border-radius: 10vw">+</button>
           </div>
+          <hr>
           <button @click="addToCart(product)" class="add-to-cart">加入购物车</button>
-          <button class="buy-now">现在购买</button>
+          <button @click="buyNow(product)" class="buy-now">现在购买</button>
         </div>
       </div>
     </div>
@@ -48,7 +51,7 @@ export default {
       if (this.quantity > 1) {
         this.quantity--;
       } else {
-        alert("数量不能少于1！");
+        this.quantity = 1;
       }
     },
     // 增加数量
@@ -88,10 +91,36 @@ export default {
           }
         });
         alert('添加成功！');
-        this.$router.push('/');
       } catch (error) {
         console.error('添加到购物车失败', error);
         alert('添加到购物车失败，请稍后重试。');
+      }
+    },
+    async buyNow(product) {
+      const userId = this.$store.getters.getUserInfo.state.user.userId;
+      if (!userId) {
+        alert('未登录！请先登录。');
+        this.$router.push('/login');
+        return;
+      }
+      try {
+        // 生成订单并获取订单 ID
+        const orderResponse = await axios.get('/api/order/addCastOrder', {
+          params: {
+            userId,
+            cartList: `${product.id}`, // 传递当前商品 ID
+          }
+        });
+
+        const orderId = orderResponse.data.orderId; // 假设返回的数据中包含订单 ID
+        alert(`订单生成成功，订单 ID: ${orderId}`);
+
+        // 然后可以选择跳转到订单详情页面，或者其他操作
+        this.$router.push(`/order/${orderId}`); // 跳转到订单详情页面
+
+      } catch (error) {
+        console.error('购买失败', error);
+        alert('购买失败，请稍后重试。');
       }
     },
   }
@@ -126,7 +155,7 @@ export default {
 .product-info {
   margin-left: 1vw;
   width: 50%;
-  padding: 20px;
+  padding: 60px;
   display: flex;
   flex-direction: column;
 }
@@ -177,6 +206,7 @@ export default {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-right: 1vw;
 }
 
 .buy-now {

@@ -91,6 +91,7 @@ export default {
           }
         });
         alert('添加成功！');
+        this.$router.push('/');
       } catch (error) {
         console.error('添加到购物车失败', error);
         alert('添加到购物车失败，请稍后重试。');
@@ -104,23 +105,26 @@ export default {
         return;
       }
       try {
-        // 生成订单并获取订单 ID
-        const orderResponse = await axios.get('/api/order/addCastOrder', {
+        const response = await axios.get("/api/cart/add", {
           params: {
             userId,
-            cartList: `${product.id}`, // 传递当前商品 ID
+            goodsId: product.id,
+            num: this.quantity, // 使用当前选择的数量
+            price: product.price1,
           }
         });
-
-        const orderId = orderResponse.data.orderId; // 假设返回的数据中包含订单 ID
-        alert(`订单生成成功，订单 ID: ${orderId}`);
-
-        // 然后可以选择跳转到订单详情页面，或者其他操作
-        this.$router.push(`/order/${orderId}`); // 跳转到订单详情页面
-
+        const cartList = response.data.cartid;
+        alert(cartList)
+        await axios.get('/api/order/addCastOrder', {
+          params: {
+            userId,
+            cartList
+          }
+        });
+        alert("购买成功！")
       } catch (error) {
-        console.error('购买失败', error);
-        alert('购买失败，请稍后重试。');
+        console.error('添加到购物车失败', error);
+        alert('添加到购物车失败，请稍后重试。');
       }
     },
   }

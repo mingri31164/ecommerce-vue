@@ -15,7 +15,7 @@
             <th>单价</th>
             <th>数量</th>
             <th>总计</th>
-            <th></th>
+            <th>操作</th>
           </tr>
           </thead>
           <CartItem

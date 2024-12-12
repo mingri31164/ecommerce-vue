@@ -48,6 +48,7 @@
 
               <!-- 下拉购物车内容 -->
               <div
+                  v-if="showCartDropdown"
                   class="cart-dropdown"
                   style="position: absolute; top: 6vh; right: 0; background: white;
                   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); width: 22vw;
@@ -201,10 +202,10 @@ export default {
     }
   },
   mounted() {
-    const script = document.createElement('script');
-    script.src = 'https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js';
-    script.async = true; // 异步加载
-    document.body.appendChild(script);
+    // const script = document.createElement('script');
+    // script.src = 'https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js';
+    // script.async = true; // 异步加载
+    // document.body.appendChild(script);
     this.cart = this.$store.state.cart
     this.getCartItem()
   },

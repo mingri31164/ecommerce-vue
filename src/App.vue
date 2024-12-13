@@ -66,7 +66,7 @@
                              style="width: 80px; height: 80px;
                            object-fit: cover; min-width: 80px; min-height: 80px;">
                         <div style="flex: 1; margin-left: 20px;">
-                          <p style="font-size: 11px; color: #5079d9; font-weight: 500;">{{ item.name }}</p>
+                          <p style="font-size: 14px; color: #5079d9; font-weight: 500;">{{ item.name }}</p>
                           <div style="display: flex; align-items: center;">
                             <p style="font-size: 14px; color: #d44d44;
                            margin-right: 10px; font-weight: 700;">¥ {{ item.price }}</p>
@@ -132,11 +132,14 @@
                   </div>
                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content">
-                      <router-link class="dropdown-item" to="/order">
-                        <span style="margin-left: 60px">订单</span>
+                      <router-link class="dropdown-item" to="/order" style="display: flex;font-size: 1vw">
+                        <img src="./assets/_订单.png" style="width: 1.4vw;height: 1.4vw;margin-left: 5vw">
+                        <span>订单</span>
                       </router-link>
 
-                      <a class="dropdown-item" @click="logout()" style="margin-left: 60px">
+                      <a class="dropdown-item" @click="logout()"
+                         style="display: flex;font-size: 1vw">
+                        <img src="./assets/退出.png" style="width: 1.4vw;height: 1.4vw;margin-left: 5vw">
                         <span>注销</span>
                       </a>
                     </div>

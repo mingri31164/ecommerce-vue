@@ -1,19 +1,28 @@
 <template>
-    <div class="order-item">
-        <div class="order-header">
-            <span>商品名称</span>
-            <span>时间</span>
-            <span>数量</span>
-            <span style="color: red">总价：￥{{ orderTotal }}</span>
-        </div>
+  <div class="order-item">
+    <table style="width: 100%; border-collapse: collapse;">
+      <thead style="background-color: hsl(0, 0%, 29%)">
+      <tr>
+        <th class="column-width">商品名称</th>
+        <th class="column-width">数量</th>
+        <th class="column-width" >
+          总价：
+          <span style="color: red">￥{{ orderTotal }}</span>
+        </th>
+        <th class="column-width">时间</th>
 
-        <div class="order-detail" v-for="item in orderDetails" v-bind:key="item.id">
-            <span>{{ item.goodsName }}</span>
-            <span>{{ formatOrderTime(order.orderTime) }}</span>
-            <span>{{ item.goodsNums }}</span>
-            <span>￥{{ item.goodsPrice }}</span>
-        </div>
-    </div>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="item in orderDetails" :key="item.id">
+        <td class="column-width">{{ item.goodsName }}</td>
+        <td class="column-width">{{ item.goodsNums }}</td>
+        <td class="column-width">￥{{ item.goodsPrice }}</td>
+        <td class="column-width">{{ formatOrderTime(order.orderTime) }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <style lang="scss">
@@ -47,6 +56,27 @@
         }
     }
 }
+.order-item table {
+  width: 100%;
+  border-collapse: collapse; /* 合并边框 */
+}
+
+.order-item th, .order-item td {
+  border: 1px solid #ddd; /* 单元格边框 */
+  padding: 10px; /* 内边距 */
+  text-align: left; /* 文本左对齐 */
+  width: 25%; /* 设置每列宽度为相同值，确保统一 */
+}
+
+.order-item th {
+  //background-color: #f2f2f2; /* 表头背景颜色 */
+  color: white;
+  font-weight: bold; /* 加粗表头字体 */
+}
+
+.order-item td {
+  vertical-align: middle; /* 垂直居中对齐 */
+}
 </style>
 
 <script>
@@ -76,15 +106,17 @@ export default {
     methods: {
       formatOrderTime(orderTime) {
         const date = new Date(orderTime);
-        return date.toLocaleString('zh-CN', { // 根据需要选择语言
+
+        // 获取星期几
+        const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
+        const weekDay = weekDays[date.getDay()]; // 获取星期几（0-6）
+
+        // 返回格式化的日期和星期
+        return `${date.toLocaleString('zh-CN', {
           year: 'numeric',
           month: '2-digit',
-          day: '2-digit',
-          // hour: '2-digit',
-          // minute: '2-digit',
-          // second: '2-digit',
-          // hour12: true // 24小时制
-        });
+          day: '2-digit'
+        })} 星期${weekDay}`;
       },
         getImgByGoodsId(goodsId) {
             let goods = this.$store.state.goods

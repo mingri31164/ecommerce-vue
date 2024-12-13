@@ -105,7 +105,7 @@ export default {
         return;
       }
       try {
-        const response = await axios.get("/api/cart/add", {
+        const response = await axios.get("/cart/add", {
           params: {
             userId,
             goodsId: product.id,
@@ -136,7 +136,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 83.5vh;
+  height: 83vh;
   padding: 0 20px;
 }
 

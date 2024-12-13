@@ -151,27 +151,29 @@ export default {
       this.$store.commit('initAddCart', this.cart);
     },
     async generateOrder() {
-      if (!this.cartList.length) {
-        alert("请选择商品");
-        return;
-      }
+      if (confirm('确定购买？')){
+        if (!this.cartList.length) {
+          alert("请选择商品");
+          return;
+        }
 
-      try {
-        const userId = this.$store.getters.getUserInfo.state.user.userId;
-        const cartList = this.cartList.join(',');
+        try {
+          const userId = this.$store.getters.getUserInfo.state.user.userId;
+          const cartList = this.cartList.join(',');
 
-        const response = await axios.get('/api/order/addCastOrder', {
-          params: {
-            userId,
-            cartList
-          }
-        });
+          const response = await axios.get('/api/order/addCastOrder', {
+            params: {
+              userId,
+              cartList
+            }
+          });
 
-        alert("购买成功");
-        console.log(response.data); // 处理返回的订单数据
-        this.$router.push('/');
-      } catch (err) {
-        console.log(err.message);
+          alert("购买成功");
+          console.log(response.data); // 处理返回的订单数据
+          this.$router.push('/');
+        } catch (err) {
+          console.log(err.message);
+        }
       }
     }
   }

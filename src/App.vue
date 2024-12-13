@@ -39,7 +39,7 @@
               <span class="cart-car" style="margin-left: 0.2vw;">购物车</span>
               <div
                   class="tip"
-                  v-if="cartTotalLen > 0"
+                  v-if="cartTotalLen > 0 && this.$store.getters.getUserInfo.state.user.userId !== ''"
                   style="position: absolute; top: 1.5vh; left: 1.7vw; width: 20px; height: 20px;
                      background-color: red; border-radius: 50%; color: white;
                      display: flex; align-items: center; justify-content: center; font-size: 12px;">
@@ -55,42 +55,44 @@
                   border-radius: 5px; z-index: 1000; max-height: 58vh;
                   overflow-y: auto; display: flex; flex-direction: column;">
                 <!-- 商品列表部分 -->
-                <div style="flex: 1; overflow-y: auto;">
-                  <div class="tab-item" v-for="item in cart.items" :key="item.id" style="padding: 10px;
+                <div v-if="cartTotalLen > 0
+                  && this.$store.getters.getUserInfo.state.user.userId !== ''">
+                  <div
+                      style="flex: 1; overflow-y: auto;">
+                    <div class="tab-item" v-for="item in cart.items" :key="item.id" style="padding: 10px;
                    border-bottom: 1px solid #eee;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                      <img :src="'http://10.60.81.45:8080/' + item.thumbnail" alt="商品图片"
-                           style="width: 80px; height: 80px;
+                      <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <img :src="'http://10.60.81.45:8080/' + item.thumbnail" alt="商品图片"
+                             style="width: 80px; height: 80px;
                            object-fit: cover; min-width: 80px; min-height: 80px;">
-                      <div style="flex: 1; margin-left: 20px;">
-                        <p style="font-size: 11px; color: #5079d9; font-weight: 500;">{{ item.name }}</p>
-                        <div style="display: flex; align-items: center;">
-                          <p style="font-size: 14px; color: #d44d44;
+                        <div style="flex: 1; margin-left: 20px;">
+                          <p style="font-size: 11px; color: #5079d9; font-weight: 500;">{{ item.name }}</p>
+                          <div style="display: flex; align-items: center;">
+                            <p style="font-size: 14px; color: #d44d44;
                            margin-right: 10px; font-weight: 700;">¥ {{ item.price }}</p>
-                          <p style="font-size: 14px; color: #999; font-weight: 600;">x {{ item.num }}</p>
+                            <p style="font-size: 14px; color: #999; font-weight: 600;">x {{ item.num }}</p>
+                          </div>
                         </div>
+                        <button class="delete" @click="removeCartItem(item)"></button>
                       </div>
-                      <button class="delete" @click="removeCartItem(item)"></button>
                     </div>
                   </div>
-                </div>
-
-                <!-- 底部固定部分 -->
-                <div style="padding: 10px; text-align: center; justify-content: center;
-              border-top: 1px solid #eee; background-color: white;
+                  <!-- 底部固定部分 -->
+                  <div style="padding: 10px; text-align: center; justify-content: center;
+              border-top: 1px solid #eee; background-color: white;height: 15vh;
               position: sticky; bottom: 0;">
                   <span style="color: rgb(153, 153, 153); font-size: 90%;
                   display: flex;">共{{cartTotalLen}}件商品</span>
-                  <span style="font-size: 110%;float: left">合计：
+                    <span style="font-size: 110%;float: left">合计：
                     <span style="color: red;font-weight: 700">
                     <span>
                       <span style="font-size: 80%">¥</span>
-                      <span style="font-size: 140%"> 532</span>
+                      <span style="font-size: 140%">{{cartTotalPrice}}</span>
                       </span>
                     </span>
                     </span>
-                  <button @click="goToCart" class="button is-primary is-big"
-                          style="float: right;margin-top: -2vh;
+                    <button @click="goToCart" class="button is-primary is-big"
+                            style="float: right;margin-top: -2vh;
                           width: 30%;
                           height: 5vh;
                           border: 1px solid #5c81e3;
@@ -99,7 +101,13 @@
                           color: #fff;
                           background-color: #678ee7;
                           background-image: linear-gradient(180deg, #678ee7, #5078df);">去购物车</button>
+                  </div>
                 </div>
+                <div v-else class="empty-cart">
+                  <div class="empty-cart-img"></div>
+                  <h6>您的购物车为空！</h6>
+                </div>
+              </div>
               </div>
 
 
@@ -107,7 +115,8 @@
           </div>
 
 
-              <router-link to="/login" class="button is-white" v-if="!user.userId">登录</router-link>
+              <router-link to="/login" class="button is-white" v-if="!user.userId"
+              style="margin-top: 1.5vh;margin-right: 1vw;">登录</router-link>
 
               <div class="user" v-else>
                 <div class="dropdown is-right mx-3 is-active">
@@ -116,7 +125,8 @@
                     <span aria-haspopup="true" aria-controls="dropdown-menu">
                       <span style="display: flex;align-items: center;margin-top: 2vh">
                         <img src="./assets/用户-实色.png" style="width: 35%; height: 30%;">
-                        <span class="user-name" style="margin-left: 0.2vw;font-size: 21px;">{{ user.name }}</span>
+                        <span class="user-name"
+                              style="margin-left: 0.2vw;font-size: 21px;">{{ user.name }}</span>
                       </span>
                     </span>
                   </div>
@@ -134,7 +144,6 @@
                 </div>
               </div>
             </div>
-          </div>
     </nav>
 
     <section class="section">
@@ -184,6 +193,23 @@
 
 .tab-item:hover{
   background-color: #f0f0f0;
+}
+.empty-cart {
+  width: 100%;
+  height: 30vh;
+  display: flex; /* 使用 Flexbox */
+  flex-direction: column; /* 垂直排列 */
+  align-items: center; /* 水平居中 */
+  justify-content: center; /* 垂直居中 */
+  text-align: center;
+  font-size: 1vw;
+  color: #888;
+}
+.empty-cart-img{
+  background-image: url("./assets/购物车空.png");
+  background-size: 100% 100%;
+  width: 40%;
+  height: 40%;
 }
 </style>
 
@@ -268,6 +294,11 @@ export default {
       return this.cart.items.reduce((acc, curVal) => {
         return acc += parseInt(curVal.num)
       }, 0)
+    },
+    cartTotalPrice() {
+      return this.cart.items.reduce((total, item) => {
+        return total + item.price * item.num; // 计算每个商品的总价并累加
+      }, 0).toFixed(2); // 保留两位小数
     },
     storeCart() {
       return this.$store.state.cart

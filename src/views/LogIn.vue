@@ -34,7 +34,7 @@
 
 
       </div>
-      <div class="small-box" :class="{active:isLogin}">
+      <div class="small-box is-dark" :class="{active:isLogin}">
         <div class="small-contain" key="smallContainRegister" v-if="isLogin">
           <div class="stitle">你好，朋友!</div>
           <p class="scontent">还没有账号？点击注册！</p>
@@ -175,7 +175,7 @@ export default {
   box-sizing: border-box;
 }
 .contain{
-  width: 55%;
+  width: 40%;
   height: 60%;
   position: relative;
   top: 50%;
@@ -206,7 +206,8 @@ export default {
 .btitle{
   font-size: 1.5em;
   font-weight: bold;
-  color: rgb(57,167,176);
+  //color: rgb(57,167,176);
+  color: #363636;
 }
 .bform{
   width: 100%;
@@ -240,7 +241,8 @@ export default {
   border-radius: 24px;
   border: none;
   outline: none;
-  background-color: rgb(57,167,176);
+  //background-color: rgb(57,167,176);
+  background-color: #56CCF2;
   color: #fff;
   font-size: 0.9em;
   cursor: pointer;
@@ -248,7 +250,8 @@ export default {
 .small-box{
   width: 30%;
   height: 100%;
-  background: linear-gradient(135deg,rgb(57,167,176),rgb(56,183,145));
+  //background: linear-gradient(135deg,rgb(57,167,176),rgb(56,183,145));
+  background-color: #363636;
   position: absolute;
   top: 0;
   left: 0;

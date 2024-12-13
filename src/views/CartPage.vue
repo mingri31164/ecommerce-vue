@@ -34,7 +34,7 @@
         <h2 class="subtitle">总价：<span style="color: red;font-weight: 600;
         font-size: 1.5vw;">￥{{ cartTotalPrice.toFixed(2) }}</span></h2>
         <hr>
-        <button class="button is-dark" @click="generateOrder()" style="width: 6vw">购买</button>
+        <button class="button is-dark" @click="generateOrder()" style="width: 6vw;z-index: 100000">购买</button>
         <button class="button is-danger" @click="clearCart()" style="float: right">清空购物车</button>
         <button class="button is-warning" @click="removeSelectedItems()"
                 style="float: right;margin-right: 1vw">删除选中商品</button>

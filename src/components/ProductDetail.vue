@@ -1,7 +1,10 @@
 <template>
   <div class="page-container">
     <div class="product-detail">
-      <img :src="productImage" alt="商品图片" class="product-image" v-if="product" />
+      <div class="image-container" @mousemove="showMagnifier" @mouseleave="hideMagnifier">
+        <img :src="productImage" alt="商品图片" class="product-image" v-if="product" />
+        <div class="magnifier" v-if="isMagnifierVisible" :style="magnifierStyle"></div>
+      </div>
       <div class="product-info">
         <h1 v-if="product" class="product-title">{{ product.name }}</h1>
         <p v-if="product" class="product-description">{{ product.description || '暂无描述' }}</p>
@@ -33,6 +36,12 @@ export default {
     return {
       product: null, // 当前商品信息
       quantity: 1,   // 商品数量，初始值为 1
+      isMagnifierVisible: false,
+      magnifierStyle: {
+        left: '0px',
+        top: '0px',
+        backgroundImage: '',
+      }
     };
   },
   computed: {
@@ -74,6 +83,31 @@ export default {
         alert('加载商品信息失败，请稍后重试。');
       }
     },
+
+    //放大镜效果
+    showMagnifier(event) {
+      this.isMagnifierVisible = true;
+      const magnifierSize = 100; // 放大镜的大小
+      const img = event.currentTarget.querySelector('.product-image');
+
+      // 设置放大镜的背景图片
+      this.magnifierStyle.backgroundImage = `url(${this.productImage})`;
+      this.magnifierStyle.backgroundSize = `${img.width * 2}px ${img.height * 2}px`; // 背景图放大两倍
+
+      const x = event.offsetX;
+      const y = event.offsetY;
+
+      this.magnifierStyle.left = `${x - magnifierSize / 2}px`;
+      this.magnifierStyle.top = `${y - magnifierSize / 2}px`;
+      this.magnifierStyle.backgroundPosition = `-${x * 2 - magnifierSize / 2}px -${y * 2 - magnifierSize / 2}px`;
+    },
+    hideMagnifier() {
+      this.isMagnifierVisible = false;
+    },
+
+
+
+
     async addToCart(product) {
       const userId = this.$store.getters.getUserInfo.state.user.userId;
       if (!userId) {
@@ -151,9 +185,25 @@ export default {
   overflow: hidden;
 }
 
-.product-image {
+.image-container {
+  position: relative;
   width: 50%;
+}
+
+.product-image {
+  width: 100%;
   object-fit: contain;
+}
+
+.magnifier {
+  position: absolute;
+  border: 1px solid #56CCF2;
+  //border-radius: 50%;
+  width: 10vw;
+  height: 10vw;
+  pointer-events: none; /* 让鼠标事件透过放大镜 */
+  background-repeat: no-repeat;
+  z-index: 10;
 }
 
 .product-info {

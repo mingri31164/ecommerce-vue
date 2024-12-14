@@ -175,7 +175,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 78.5vh;
+  height: 69.6vh;
   padding: 0 20px;
 }
 

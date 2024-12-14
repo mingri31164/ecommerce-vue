@@ -2,8 +2,9 @@
   <div id="wrapper">
     <nav class="navbar" style="height: 11vh;background-color: black">
       <div class="navbar-brand" style="margin-left: 9vw">
-        <router-link to="/" class="navbar-item">
-          <span class="has-text-grey"></span><strong class="button is-white">首页</strong>
+        <router-link to="/" class="navbar-item" >
+          <span style="width: 3vw;height: 3vw;background-color: white;
+          text-align: center;line-height: 3vw;font-weight: 700;font-size: 1vw;border-radius: 50%">M</span>
         </router-link>
 
         <a class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar-menu"
@@ -178,6 +179,37 @@
             </div>
     </nav>
 
+
+    <div class="navar-second"
+        style="height: 9vh; background-color: white;
+    display: flex;align-items: center;">
+      <router-link to="/" style="text-align: center;margin-left: 12vw">
+        <span>· 首页</span>
+      </router-link>
+      <router-link to="/" style="text-align: center;margin-left: 2vw">
+        <span >· 全部</span>
+      </router-link>
+      <router-link to="/" style="text-align: center;margin-left: 2vw">
+        <span>· 项目Github</span>
+      </router-link>
+      <router-link to="/" style="text-align: center;margin-left: 2vw">
+        <span>· 小米商城</span>
+      </router-link>
+      <router-link to="/" style="text-align: center;margin-left: 2vw">
+        <span>· 淘宝商城</span>
+      </router-link>
+      <router-link to="/" style="text-align: center;margin-left: 2vw">
+        <span>· 京东商城</span>
+      </router-link>
+      <router-link to="/" style="text-align: center;margin-left: 2vw">
+        <span>· 首页</span>
+      </router-link>
+      <router-link to="/" style="text-align: center;margin-left: 2vw">
+        <span>· 首页</span>
+      </router-link>
+    </div>
+
+
     <section class="section">
       <router-view />
     </section>
@@ -242,6 +274,12 @@
   background-size: 100% 100%;
   width: 40%;
   height: 40%;
+}
+.navar-second span {
+  color: #666;
+}
+.navar-second span:hover {
+  color: #66b3ff;
 }
 </style>
 

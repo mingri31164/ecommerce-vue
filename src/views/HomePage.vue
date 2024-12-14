@@ -33,7 +33,7 @@
 
       <!-- 商品为空提示 -->
       <div v-if="$store.getters.filteredGoods.length === 0" class="empty-message"
-          style="width: 100%;height: 75vh">
+          style="width: 100%;height: 70vh">
         <img src="../assets/cart-empty.png">
         <h2>商品为空</h2>
         <p>当前没有符合条件的商品，请尝试其他搜索或筛选条件。</p>

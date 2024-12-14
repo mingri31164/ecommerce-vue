@@ -99,7 +99,9 @@ export default {
         for (const item of selectedItems) {
           await this.removeCartItem(item, userId);
         }
+        this.isAllChecked
         this.updateTotalPrice(); // 更新总价
+        location.reload()
       }
     },
     async removeCartItem(item, userId) {

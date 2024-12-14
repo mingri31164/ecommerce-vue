@@ -15,9 +15,9 @@
       </thead>
       <tbody>
       <tr v-for="item in orderDetails" :key="item.id">
-        <td class="column-width">{{ item.goodsName }}</td>
+        <td class="column-width" style="font-weight: 700">{{ item.goodsName }}</td>
         <td class="column-width">{{ item.goodsNums }}</td>
-        <td class="column-width">￥{{ item.goodsPrice }}</td>
+        <td class="column-width" style="font-weight: 500">￥{{ item.goodsPrice }}</td>
         <td class="column-width">{{ formatOrderTime(order.orderTime) }}</td>
       </tr>
       </tbody>

@@ -7,7 +7,12 @@
       </div>
       <div class="product-info">
         <h1 v-if="product" class="product-title">{{ product.name }}</h1>
-        <p v-if="product" class="product-description">{{ product.description || '暂无描述' }}</p>
+        <p v-if="product" class="product-description">{{ product.description || '这款'+product.name+'结合了现代科技' +
+        '与卓越设计，旨在提升用户体验。其主要特点包括高性能处理能力，确保流畅操作和快速响应；' +
+        '多功能性，满足日常需求，' +
+        '如娱乐、通讯和办公。产品采用优质材料，保证耐用性和舒适性，同时配备先进的安全功能，' +
+        '保护用户隐私和数据安全。无论是居家使用还是外出携带，这款电子产品都是理想的选择，' +
+        '助您轻松应对生活中的各种挑战。' }}</p>
         <hr>
         <h2 v-if="product" class="product-price">价格: ￥{{ product.price1 }}</h2>
         <hr>
@@ -170,7 +175,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 83vh;
+  height: 78.5vh;
   padding: 0 20px;
 }
 

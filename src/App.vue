@@ -1,7 +1,7 @@
 <template>
   <div id="wrapper">
-    <nav class="navbar is-dark">
-      <div class="navbar-brand">
+    <nav class="navbar" style="height: 11vh;background-color: black">
+      <div class="navbar-brand" style="margin-left: 9vw">
         <router-link to="/" class="navbar-item">
           <span class="has-text-grey"></span><strong class="button is-white">首页</strong>
         </router-link>
@@ -13,6 +13,35 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
+
+
+      <div class="navbar-item" style="position: relative; width: 30vw;margin-left: 32vw">
+        <!-- 搜索框 -->
+        <img src="./assets/放大镜.png" style="position: absolute;
+         left: 1vw; width: 20px; height: 20px; top: 4.5vh;">
+        <input
+            type="text"
+            v-model="searchQuery"
+            placeholder="搜索商品..."
+            @input="filterProducts"
+            style="width: 70%; padding: 10px 10px 10px 25px; margin-right: 10px;"
+        />
+
+        <!-- 价格筛选下拉菜单 -->
+        <select
+            v-model="selectedPriceRange"
+            @change="filterProducts"
+            style="width: 20%;"
+        >
+          <option value="">不限价格</option>
+          <option value="0-100">0-100元</option>
+          <option value="100-500">100-500元</option>
+          <option value="500-1000">500-1000元</option>
+          <option value="1000">1000元以上</option>
+        </select>
+      </div>
+
+      <span style="margin-top: 4vh;color: #b0b0b0">|</span>
 
       <div class="navbar-menu" id="navbar-menu" v-bind:class="{ 'is-active': showMobileMenu }">
         <div class="navbar-start">
@@ -40,7 +69,7 @@
               <div
                   class="tip"
                   v-if="cartTotalLen > 0 && this.$store.getters.getUserInfo.state.user.userId !== ''"
-                  style="position: absolute; top: 1.5vh; left: 1.7vw; width: 20px; height: 20px;
+                  style="position: absolute; top: 3.6vh; left: 1.7vw; width: 20px; height: 20px;
                      background-color: red; border-radius: 50%; color: white;
                      display: flex; align-items: center; justify-content: center; font-size: 12px;">
                 {{ cartTotalLen }}
@@ -50,7 +79,7 @@
               <div
                   v-if="showCartDropdown"
                   class="cart-dropdown"
-                  style="position: absolute; top: 6vh; right: 0; background: white;
+                  style="position: absolute; top: 9vh; right: 0; background: white;
                   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); width: 22vw;
                   border-radius: 5px; z-index: 1000; max-height: 58vh;
                   overflow-y: auto; display: flex; flex-direction: column;">
@@ -118,19 +147,19 @@
               <router-link to="/login" class="button is-white" v-if="!user.userId"
               style="margin-top: 1.5vh;margin-right: 1vw;">登录</router-link>
 
-              <div class="user" v-else>
+              <div class="user" v-else style="margin-right: 7vw">
                 <div class="dropdown is-right mx-3 is-active">
                   <div class="dropdown-trigger" style="color: #b0b0b0;
-                  width: 5.5vw; height: 5vh;overflow: hidden;">
+                  width: 5.5vw; height: 11vh;overflow: hidden;">
                     <span aria-haspopup="true" aria-controls="dropdown-menu">
-                      <span style="display: flex;align-items: center;margin-top: 2vh">
+                      <span style="display: flex;align-items: center;">
                         <img src="./assets/用户-实色.png" style="width: 35%; height: 30%;">
                         <span class="user-name"
-                              style="margin-left: 0.2vw;font-size: 21px;">{{ user.name }}</span>
+                              style="margin-left: 0.2vw;font-size: 21px;margin-top: 0.5vh">{{ user.name }}</span>
                       </span>
                     </span>
                   </div>
-                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-menu" id="dropdown-menu" role="menu" style="margin-top: -3vh">
                     <div class="dropdown-content">
                       <router-link class="dropdown-item" to="/order" style="display: flex;font-size: 1vw">
                         <img src="./assets/_订单.png" style="width: 1.4vw;height: 1.4vw;margin-left: 5vw">
@@ -228,17 +257,41 @@ export default {
         items: []
       },
       user: this.$store.getters.getUserInfo?.state.user ?? {},
+
+      searchQuery: '', // 搜索框内容
+      selectedPriceRange: '', // 选中的价格范围
     }
   },
   mounted() {
-    // const script = document.createElement('script');
-    // script.src = 'https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js';
-    // script.async = true; // 异步加载
-    // document.body.appendChild(script);
     this.cart = this.$store.state.cart
     this.getCartItem()
   },
   methods: {
+    filterProducts() {
+      const query = this.searchQuery.toLowerCase();
+      const priceRange = this.selectedPriceRange;
+
+      this.$store.commit('setFiltering', !!(query || priceRange)); // 使用 Vuex 管理过滤状态
+
+      // 过滤商品
+      const latestProducts = this.$store.state.goods; // 从 Vuex 获取所有商品
+      const filteredProducts = latestProducts.filter(product => {
+        const matchesSearch = product.name.toLowerCase().includes(query);
+
+        // 处理价格区间
+        let withinPriceRange = true;
+        if (priceRange) {
+          const [min, max] = priceRange.split('-').map(Number);
+          withinPriceRange = max
+              ? product.price1 >= min && product.price1 < max
+              : product.price1 >= min;
+        }
+
+        return matchesSearch && withinPriceRange;
+      });
+
+      this.$store.commit('updateFilteredProducts', filteredProducts); // 更新过滤后的商品列表
+    },
     async removeCartItem(item) {
       try {
         const response = await axios.get('/api/cart/deleteById', {

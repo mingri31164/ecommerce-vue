@@ -22,7 +22,7 @@
               v-for="item in cart.items"
               :key="item.cardid"
               :initialItem="item"
-              @removeCartItem="removeCartItem"
+              @removeCartItem="removeCartItem(item, this.$store.getters.getUserInfo.state.user.userId)"
               @updateTotalPrice="updateTotalPrice"
           />
         </table>

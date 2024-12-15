@@ -3,7 +3,7 @@
     <div class="columns is-multiline" style="width: 80vw;">
 
       <!-- 轮播图和商品展示 -->
-      <div style="margin-bottom: 50px; height: 80vh;background-color: white"
+      <div style="margin-bottom: 50px; height: 77vh;background-color: white"
            v-if="!$store.getters.isFiltering">
         <el-carousel trigger="click" :autoplay="true" interval="3000">
           <el-carousel-item v-for="item in latestProducts" :key="item.id"

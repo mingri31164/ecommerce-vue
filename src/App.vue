@@ -2,8 +2,9 @@
   <div id="wrapper">
     <nav class="navbar" style="height: 11vh;background-color: black">
       <div class="navbar-brand" style="margin-left: 9vw">
-        <router-link to="/" class="navbar-item" >
-          <span style="width: 3vw;height: 3vw;background-color: white;
+        <router-link to="/" class="navbar-item" @click="refreshPage">
+          <span
+              style="width: 3vw;height: 3vw;background-color: white;
           text-align: center;line-height: 3vw;font-weight: 700;font-size: 1vw;border-radius: 50%">M</span>
         </router-link>
 
@@ -146,7 +147,7 @@
 
 
               <router-link to="/login" class="button is-white" v-if="!user.userId"
-              style="margin-top: 1.5vh;margin-right: 1vw;">登录</router-link>
+              style="margin-top: 3.6vh;margin-right: 11vw;">登录</router-link>
 
               <div class="user" v-else style="margin-right: 7vw">
                 <div class="dropdown is-right mx-3 is-active">
@@ -156,7 +157,8 @@
                       <span style="display: flex;align-items: center;">
                         <img src="./assets/用户-实色.png" style="width: 35%; height: 30%;">
                         <span class="user-name"
-                              style="margin-left: 0.2vw;font-size: 21px;margin-top: 0.5vh">{{ user.name }}</span>
+                              style="margin-left: 0.2vw;font-size: 21px;margin-top: 0.5vh;
+                              ">{{ user.name }}</span>
                       </span>
                     </span>
                   </div>
@@ -179,34 +181,33 @@
             </div>
     </nav>
 
-
     <div class="navar-second"
         style="height: 9vh; background-color: white;
     display: flex;align-items: center;">
-      <router-link to="/" style="text-align: center;margin-left: 12vw">
+      <router-link to="/" style="text-align: center;margin-left: 12vw" @click="refreshPage">
         <span>· 首页</span>
       </router-link>
       <router-link to="/" style="text-align: center;margin-left: 2vw">
         <span >· 全部</span>
       </router-link>
-      <router-link to="/" style="text-align: center;margin-left: 2vw">
+      <a href="https://github.com/mingri31164/ecommerce-vue" style="text-align: center;margin-left: 2vw">
         <span>· 项目Github</span>
-      </router-link>
-      <router-link to="/" style="text-align: center;margin-left: 2vw">
+      </a>
+      <a href="https://www.mi.com/shop" style="text-align: center;margin-left: 2vw">
         <span>· 小米商城</span>
-      </router-link>
-      <router-link to="/" style="text-align: center;margin-left: 2vw">
-        <span>· 淘宝商城</span>
-      </router-link>
-      <router-link to="/" style="text-align: center;margin-left: 2vw">
+      </a>
+      <a href="https://www.jd.com/" style="text-align: center;margin-left: 2vw">
         <span>· 京东商城</span>
-      </router-link>
-      <router-link to="/" style="text-align: center;margin-left: 2vw">
-        <span>· 首页</span>
-      </router-link>
-      <router-link to="/" style="text-align: center;margin-left: 2vw">
-        <span>· 首页</span>
-      </router-link>
+      </a>
+      <a href="https://www.taobao.com/" style="text-align: center;margin-left: 2vw">
+        <span>· 淘宝商城</span>
+      </a>
+      <a href="http://139.9.51.109:8090/" style="text-align: center;margin-left: 2vw">
+        <span>· 天气预测</span>
+      </a>
+      <a href="https://github.com/mingri31164/carbon-footprint" style="text-align: center;margin-left: 2vw">
+        <span>· 碳足迹计算器</span>
+      </a>
     </div>
 
 
@@ -305,6 +306,10 @@ export default {
     this.getCartItem()
   },
   methods: {
+    refreshPage() {
+      // 跳转到根路径并刷新页面
+      window.location.href = "/";
+    },
     filterProducts() {
       const query = this.searchQuery.toLowerCase();
       const priceRange = this.selectedPriceRange;

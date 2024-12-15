@@ -164,14 +164,14 @@ export default {
 <style scoped="scoped">
 #particles-js {
   position: absolute; /* 为防止页面有其他的内容时会挤下去 */
-  height: 83%;
+  height: 69.5vh;
   width: 100%;
   overflow: hidden;
 }
 
 .login-register{
   width: 100vw;
-  height: 83vh;
+  height: 69.5vh;
   box-sizing: border-box;
 }
 .contain{

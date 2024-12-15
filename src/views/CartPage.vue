@@ -30,7 +30,7 @@
         <p v-else>你的购物车是空的</p>
       </div>
 
-      <div class="column is-12 box">
+      <div class="column is-12 box" style="z-index: 1000000000">
         <h2 class="subtitle">总价：<span style="color: red;font-weight: 600;
         font-size: 1.5vw;">￥{{ cartTotalPrice.toFixed(2) }}</span></h2>
         <hr>

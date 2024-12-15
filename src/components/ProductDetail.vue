@@ -2,7 +2,7 @@
   <div class="page-container">
     <div class="product-detail">
       <div class="image-container" @mousemove="showMagnifier" @mouseleave="hideMagnifier">
-        <img :src="productImage" alt="商品图片" class="product-image" v-if="product" />
+        <img :src="productImage" alt="商品图片" class="product-image" v-if="product"/>
         <div class="magnifier" v-if="isMagnifierVisible" :style="magnifierStyle"></div>
       </div>
       <div class="product-info">
@@ -172,14 +172,16 @@ export default {
 
 <style scoped>
 .page-container {
+  margin-top: -3vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 69.6vh;
+  height: auto;
   padding: 0 20px;
 }
 
 .product-detail {
+  height: 72.7vh;
   display: flex;
   padding: 40px;
   width: 90%;
@@ -193,6 +195,7 @@ export default {
 .image-container {
   position: relative;
   width: 50%;
+  height: auto;
 }
 
 .product-image {

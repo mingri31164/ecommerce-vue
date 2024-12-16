@@ -69,6 +69,9 @@ export default {
   },
   mounted() {
     document.title = "Shopping"
+    if (this.$store.getters.getUserInfo.state.user.userId){
+      this.$router.push('/')
+    }
   },
   methods: {
     changeType() {

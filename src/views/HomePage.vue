@@ -4,7 +4,7 @@
 
       <!-- 轮播图和商品展示 -->
       <div style="margin-bottom: 50px; height: 77vh;background-color: white"
-           v-if="!$store.getters.isFiltering">
+           v-if="!$store.getters.isFiltering && $store.getters.filteredGoods.length !== 0">
         <el-carousel trigger="click" :autoplay="true" interval="3000">
           <el-carousel-item v-for="item in latestProducts" :key="item.id"
                             :style="carouselItemStyle(item)">
@@ -109,7 +109,7 @@ export default {
     },
     carouselItemStyle(item) {
       return {
-        backgroundImage: 'url(http://10.60.81.45:8080/' + item.pthumbnail + ')',
+        backgroundImage: 'url(http://10.60.81.180:8080/' + item.pthumbnail + ')',
         backgroundSize: 'fill',
         width: '100%',
         height: '100%',

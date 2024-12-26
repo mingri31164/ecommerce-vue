@@ -52,7 +52,7 @@ export default {
   computed: {
     productImage() {
       return this.product
-          ? `http://10.60.81.45:8080/${this.product.pthumbnail}`
+          ? `http://10.60.81.180:8080/${this.product.pthumbnail}`
           : '';
     }
   },

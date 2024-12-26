@@ -3,7 +3,7 @@
        style="display: flex; justify-content: center; align-items: flex-start; padding: 10px;">
     <div class="box" style="width: 300px; height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
       <figure class="image mb-4" style="width: 100%; height: 220px; overflow: hidden;">
-        <img :src="'http://10.60.81.45:8080/' + good.pthumbnail" style="width: 100%; height: auto;">
+        <img :src="'http://10.60.81.180:8080/' + good.pthumbnail" style="width: 100%; height: auto;">
       </figure>
       <span class="is-size-6" style="font-weight: 400">{{ good.name }}</span>
       <span class="is-size-7" style="color: #b0b0b0;font-size: 12px">这是一台 | {{ good.name }}</span>

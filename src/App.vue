@@ -93,7 +93,7 @@
                     <div class="tab-item" v-for="item in cart.items" :key="item.id" style="padding: 10px;
                    border-bottom: 1px solid #eee;">
                       <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <img :src="'http://10.60.81.45:8080/' + item.thumbnail" alt="商品图片"
+                        <img :src="'http://10.60.81.180:8080/' + item.thumbnail" alt="商品图片"
                              style="width: 80px; height: 80px;
                            object-fit: cover; min-width: 80px; min-height: 80px;">
                         <div style="flex: 1; margin-left: 20px;">
@@ -352,6 +352,7 @@ export default {
       this.showCartDropdown = show;
     },
     goToCart() {
+      this.showCartDropdown = false;
       this.$router.push("/cart");
     },
     goHome() {
